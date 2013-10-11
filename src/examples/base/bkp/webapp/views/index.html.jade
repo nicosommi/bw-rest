@@ -1,0 +1,57 @@
+html
+    head
+        title BW-REST example by nicosommi
+        meta(charset="UTF-8")
+        link(rel="shortcut icon", href="favicon.ico")
+        link(rel="stylesheet", type="text/css", href="stylesheets/jquery-ui-1.10.3.custom.min.css")
+        link(rel="stylesheet", type="text/css", href="stylesheets/example.css")
+
+        script(type="text/javascript", data-main="javascripts/deptree", src="javascripts/require-min.js")
+
+    body(style="ui-darkness")
+        #appView
+    script(type="text/template",id="loginTemplate")
+        #headerLogin
+            |Login
+        #contentLogin
+            form(id="frmLogin")
+                #logo
+                    img(id="imgLogo",src='images/favicon.jpg', style="width: 100px; height: 75px")
+                #loginErrorMessage(style="color: red; display: none;")
+                    |Login failed
+                #loginForm
+                    #userNameDiv(style="float: left; width: 100px;")
+                        |User name
+                    #userNameInput
+                        input(id="username",type="text")
+                    #passwordDiv(style="float: left; width: 100px;")
+                        |Password
+                    #passwordInput
+                        input(id="password",type="password")
+                    input(id="btnLogin", value="Login",type="button",onclick="javascript: window.app.AppRouter.loginView.login();")
+        #footerLogin
+            |BW-REST by nicosommi
+    script(type="text/template",id="usersTemplate")
+        #header
+            |Lista de usuarios
+            br
+            input(id="btnOpenAddUser", value="Add User",type="button",onclick="javascript: window.app.AppRouter.usersView.openAddUser(this);")
+        #content
+            ul
+        #footer
+            |BW-REST by nicosommi
+    script(type="text/template",id="userItemTemplate")
+        span(style="float:left; width: 200px;")
+            <%= user.firstName %>
+            &nbsp;
+            <%= user.lastName %>
+        button(id="btnEditUser", class="icon-edit-buttons") Edit
+        button(id="btnRemoveUser", class="icon-close-buttons") Del
+    script(type="text/template",id="userTemplate")
+        |First name:
+        input(type="text", id="inputFirstName", name="inputFirstName", maxLength="25")
+        br
+        |Last name:
+        input(type="text", id="inputLastName",name="inputLastName", maxLength="25")
+        br
+        input(id="btnAddUser", value="Add",type="button")

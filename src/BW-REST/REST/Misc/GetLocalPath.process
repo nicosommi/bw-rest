@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx2="http://www.tibco.com/schemas/BW-REST/REST/Schema.xsd" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+    <pd:name>REST/Misc/GetLocalPath.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:RestProcessInput"/>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <xsl:variable name="varOriginalURLPath" select="$Start/pfx:RestProcessInput/pfx:parameters/pfx:parameter[pfx:name='route'][1]/pfx:value"/>
+        <xsl:variable name="varActualURLPath" select="$Start/pfx:RestProcessInput/pfx:parameters/pfx:parameter[pfx:name='command'][1]/pfx:value"/>
+        <xsl:variable name="varResourcePath" select="$Start/pfx:RestProcessInput/pfx:parameters/pfx:parameter[pfx:name='folder'][1]/pfx:value"/>
+        <xsl:variable name="varSanitizedPath" select="substring-after($varActualURLPath, $varOriginalURLPath)"/>
+        <xsl:variable name="varSlash" select="if( tib:index-of($varSanitizedPath, '/') = 1) then&#xA;&#x9;''&#xA;else&#xA;&#x9;'/'"/>
+        <root>
+            <path>
+                <xsl:value-of select="concat($varResourcePath, $varSlash, $varSanitizedPath)"/>
+            </path>
+            <extension>
+                <xsl:value-of select="tib:substring-after-last($varSanitizedPath, '.')"/>
+            </extension>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="path" type="xsd:string"/>
+                    <xsd:element name="extension" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1378390200249</pd:targetNamespace>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

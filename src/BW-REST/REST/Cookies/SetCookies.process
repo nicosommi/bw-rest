@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+    <pd:name>REST/Cookies/SetCookies.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:Cookies"/>
+    <pd:startX>91</pd:startX>
+    <pd:startY>105</pd:startY>
+    <pd:returnBindings>
+        <pfx:parameters>
+            <xsl:for-each select="$Start/root/pfx:parameters/pfx:parameter">
+                <pfx:parameter>
+                    <xsl:variable name="parameter" select="."/>
+                    <pfx:name>
+                        <xsl:value-of select="pfx:name"/>
+                    </pfx:name>
+                    <xsl:choose>
+                        <xsl:when test="string-length(current()/pfx:type) > 0 and current()/pfx:type='query'">
+                            <xsl:variable name="qsValues" select="for $var in  tib:tokenize(../../queryString, '&amp;')&#xA;&#x9;return if (string-length($var)>0 and  tib:tokenize($var, '=')[1] = $parameter/pfx:name) then tib:tokenize($var, '=')[2] else ''"/>
+                            <xsl:variable name="paramPosition" select="for $var in  tib:tokenize(../../queryString, '&amp;')&#xA;&#x9;return if (string-length($var)>0 and  tib:tokenize($var, '=')[1] = $parameter/pfx:name) then 1 else 0"/>
+                            <pfx:value>
+                                <xsl:value-of select="tib:concat-sequence($qsValues)"/>
+                            </pfx:value>
+                        </xsl:when>
+                        <xsl:otherwise>
+                            <xsl:variable name="var2" select="current()/pfx:position"/>
+                            <xsl:variable name="var3" select="number($var2)"/>
+                            <pfx:value>
+                                <xsl:value-of select="tib:tokenize(../../command, '/')[$var3]"/>
+                            </pfx:value>
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </pfx:parameter>
+            </xsl:for-each>
+        </pfx:parameters>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endX>388</pd:endX>
+    <pd:endY>104</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376336806952</pd:targetNamespace>
+    <pd:activity name="SetVariable">
+        <pd:type>com.tibco.pe.core.SetSharedVariableActivity</pd:type>
+        <pd:resourceType>ae.activities.setSharedVariable</pd:resourceType>
+        <pd:x>301</pd:x>
+        <pd:y>106</pd:y>
+        <config>
+            <variableConfig>/REST/Resources/Variables/Cookies.sharedvariable</variableConfig>
+        </config>
+        <pd:inputBindings>
+            <pfx:Cookies>
+                <xsl:copy-of select="$Start/pfx:Cookies/pfx:cookie"/>
+                <xsl:copy-of select="$GetCookies/pfx:Cookies/pfx:cookie"/>
+            </pfx:Cookies>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="GetCookies">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>189</pd:x>
+        <pd:y>112</pd:y>
+        <config>
+            <processName>/REST/Cookies/GetCookies.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>GetCookies</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SetVariable</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>GetCookies</pd:from>
+        <pd:to>SetVariable</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

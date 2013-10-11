@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.hp.com/labs/rest/RESTTypes">
+    <pd:name>REST/UnitTest/testParseParameters.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>150</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>519</pd:endX>
+    <pd:endY>67</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376571407782</pd:targetNamespace>
+    <pd:activity name="ParseParameters">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>337</pd:x>
+        <pd:y>64</pd:y>
+        <config>
+            <processName>/REST/ParseParameters.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <command>
+                    <xsl:value-of select="'examplecommand/parampos2/example/parampos4'"/>
+                </command>
+                <queryString>
+                    <xsl:value-of select="'action=lock&amp;sessionID=996102144&amp;wiTag=timetracking|PC000111|T01|R|17851|15439|timetracking|ST000001|0|7'"/>
+                </queryString>
+                <ns:parameters>
+                    <ns:parameter>
+                        <ns:name>
+                            <xsl:value-of select="'sessionID'"/>
+                        </ns:name>
+                        <ns:type>
+                            <xsl:value-of select="'query'"/>
+                        </ns:type>
+                    </ns:parameter>
+                    <ns:parameter>
+                        <ns:name>
+                            <xsl:value-of select="'action'"/>
+                        </ns:name>
+                        <ns:type>
+                            <xsl:value-of select="'query'"/>
+                        </ns:type>
+                    </ns:parameter>
+                </ns:parameters>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>ParseParameters</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseParameters</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

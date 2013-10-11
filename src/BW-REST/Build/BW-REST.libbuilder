@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Repository:repository xmlns:Repository="http://www.tibco.com/xmlns/repo/types/2002">
+    <name name="BW-REST">
+        <version>52</version>
+        <author>sommi</author>
+        <fileLocation>/home/admin/workspace/BW-REST/bin/BW-REST.projlib</fileLocation>
+        <resources>/REST/Cookies/GetCookies.process,/REST/Cookies/GetCookiesHeaders.process,/REST/Cookies/InitializeCookies.process,/REST/Cookies/SetCookies.process,/REST/Core/DummyProcess.process,/REST/JADE/Resources/alias/AliasLibrary.aliaslib,/REST/Core/MatchRoute.process,/REST/Misc/generateUUID.process,/REST/Misc/ParseParameters.process,/REST/Resources/Connections/restServer.sharedhttp,/REST/Resources/Custom functions/RegexMatch.javaxpath,/REST/Resources/Data/router.xml,/REST/Resources/Schemas/RESTTypes.xsd,/REST/Resources/Variables/routerVar.jobsharedvariable,/REST/Handlers/ServeJADEView.process,/REST/Handlers/ServeStaticResource.process,/REST/router.process</resources>
+    </name>
+</Repository:repository>

@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<routes xmlns = "http://www.hp.com/labs/rest/RESTTypes" xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation = "http://www.hp.com/labs/rest/RESTTypes RESTTypes.xsd">
+	<route>
+		<path>/</path>
+		<verb>GET</verb>
+		<type>static</type>
+		<folder>/WebContent</folder>
+	</route>
+</routes>

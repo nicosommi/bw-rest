@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+    <pd:name>webapp/services/removeUser.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:RestProcessInput"/>
+    <pd:startX>94</pd:startX>
+    <pd:startY>64</pd:startY>
+    <pd:returnBindings>
+        <pfx:RestProcessOutput>
+            <pfx:extraHTTPHeaders>
+                <pfx:header>
+                    <pfx:name>
+                        <xsl:value-of select="'Content-type'"/>
+                    </pfx:name>
+                    <pfx:value>
+                        <xsl:value-of select="'application/json'"/>
+                    </pfx:value>
+                </pfx:header>
+            </pfx:extraHTTPHeaders>
+            <pfx:body/>
+        </pfx:RestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:RestProcessOutput"/>
+    <pd:endX>645</pd:endX>
+    <pd:endY>62</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1381520029829</pd:targetNamespace>
+    <pd:activity name="SecurityCheck">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>193</pd:x>
+        <pd:y>63</pd:y>
+        <config>
+            <processName>/webapp/services/util/SecurityCheck.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="RemoveUser">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>341</pd:x>
+        <pd:y>50</pd:y>
+        <config>
+            <processName>/UserManagement/RemoveUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <ns:User>
+                <ns:id>
+                    <xsl:value-of select="$Start/pfx:RestProcessInput/pfx:parameters/pfx:parameter[pfx:name='id']/pfx:value"/>
+                </ns:id>
+                <ns:firstName>
+                    <xsl:value-of select="''"/>
+                </ns:firstName>
+                <ns:lastName>
+                    <xsl:value-of select="''"/>
+                </ns:lastName>
+            </ns:User>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SecurityCheck</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SecurityCheck</pd:from>
+        <pd:to>RemoveUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RemoveUser</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

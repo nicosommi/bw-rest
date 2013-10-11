@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+    <pd:name>REST/Cookies/GetCookiesHeaders.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:Cookies"/>
+    <pd:startX>91</pd:startX>
+    <pd:startY>105</pd:startY>
+    <pd:returnBindings>
+        <pfx:ExtraHTTPHeaders>
+            <xsl:for-each select="$Start/pfx:Cookies/pfx:cookie">
+                <pfx:header>
+                    <xsl:variable name="varDomain" select="if(string-length(pfx:domain)>0) then&#xA;&#x9;concat('Domain=', pfx:domain, '; ')&#xA;else&#xA;&#x9;''"/>
+                    <xsl:variable name="varPath" select="if(string-length(pfx:path)>0) then&#xA;&#x9;concat('Path=', pfx:path, '; ')&#xA;else&#xA;&#x9;''"/>
+                    <xsl:variable name="varExpires" select="if(string-length(pfx:expires)>0) then&#xA;&#x9;concat('Expires=', tib:format-dateTime('EEE, dd MMM yyyy HH:mm:ss zzz', pfx:expires), '; ')&#xA;else&#xA;&#x9;''"/>
+                    <xsl:variable name="varMaxAge" select="if(string-length(pfx:max-age)>0) then&#xA;&#x9;concat('max-age=', pfx:max-age, '; ')&#xA;else&#xA;&#x9;''"/>
+                    <xsl:variable name="varHttpOnly" select="if(string(pfx:httpOnly) = string(true()) ) then&#xA;&#x9;'HttpOnly; '&#xA;else&#xA;&#x9;''"/>
+                    <xsl:variable name="varSecure" select="if(string(pfx:secure) = string(true()) ) then&#xA;&#x9;'Secure; '&#xA;else&#xA;&#x9;''"/>
+                    <pfx:name>
+                        <xsl:value-of select="'Set-Cookie'"/>
+                    </pfx:name>
+                    <pfx:value>
+                        <xsl:value-of select="concat(pfx:name, '=', pfx:value, '; ', $varDomain, $varPath, $varExpires, $varMaxAge, $varSecure, $varHttpOnly)"/>
+                    </pfx:value>
+                </pfx:header>
+            </xsl:for-each>
+        </pfx:ExtraHTTPHeaders>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:ExtraHTTPHeaders"/>
+    <pd:endX>321</pd:endX>
+    <pd:endY>106</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376336806952</pd:targetNamespace>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

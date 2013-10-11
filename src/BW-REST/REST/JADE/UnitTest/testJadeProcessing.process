@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.hp.com/labs/rest/RESTTypes">
+    <pd:name>REST/JADE/UnitTest/testJadeProcessing.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>132</pd:startX>
+    <pd:startY>115</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>534</pd:endX>
+    <pd:endY>117</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376571407782</pd:targetNamespace>
+    <pd:activity name="abs jadeProcessing">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>336</pd:x>
+        <pd:y>75</pd:y>
+        <config>
+            <processName>/REST/JADE/jadeProcess.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <templatePath>
+                    <xsl:value-of select="'abs:C:\\template.jade.1.jade'"/>
+                </templatePath>
+                <parameters>
+                    <name>
+                        <xsl:value-of select="'pageTitle'"/>
+                    </name>
+                    <value>
+                        <xsl:value-of select="'prueba'"/>
+                    </value>
+                </parameters>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="rel-jadeProcessing">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>334</pd:x>
+        <pd:y>201</pd:y>
+        <config>
+            <processName>/REST/JADE/jadeProcess.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <templatePath>
+                    <xsl:value-of select="'/JADE/UnitTest/test.jade'"/>
+                </templatePath>
+                <parameters>
+                    <name>
+                        <xsl:value-of select="'pageTitle'"/>
+                    </name>
+                    <value>
+                        <xsl:value-of select="'prueba'"/>
+                    </value>
+                </parameters>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>abs jadeProcessing</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>abs jadeProcessing</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>rel-jadeProcessing</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>rel-jadeProcessing</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

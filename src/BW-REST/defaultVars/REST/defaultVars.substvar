@@ -1,0 +1,45 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<repository xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns = "http://www.tibco.com/xmlns/repo/types/2002">
+	<globalVariables>
+		<globalVariable>
+			<name>allowMethods</name>
+			<value>GET, PUT, POST, DELETE</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1376489978911</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>allowOrigin</name>
+			<value>*</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1376489381289</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>httpConnectionPath</name>
+			<value>/REST/Resources/Connections/restServer.sharedhttp</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1379633625253</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>port</name>
+			<value>8989</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1376489381198</modTime>
+		</globalVariable>
+		<globalVariable>
+			<name>routerPath</name>
+			<value>/REST/Resources/Data/router.xml</value>
+			<deploymentSettable>true</deploymentSettable>
+			<serviceSettable>false</serviceSettable>
+			<type>String</type>
+			<modTime>1379633433231</modTime>
+		</globalVariable>
+	</globalVariables>
+</repository>

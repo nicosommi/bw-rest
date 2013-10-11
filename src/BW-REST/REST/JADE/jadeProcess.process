@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:ns2="www.tibco.com/plugin/java/XmlToJavaActivityInput" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns1="www.tibco.com/plugin/java/XmlToJavaActivityOutput" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns4="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns3="http://xmlns.tibco.com/javaschema/java.util.ArrayList" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="www.tibco.com/plugin/java/xmlSchema/java.util.ArrayList">
+    <pd:name>REST/JADE/jadeProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="templatePath" type="xsd:string"/>
+                    <xsd:element name="parameters" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="name" type="xsd:string"/>
+                                <xsd:element name="value" type="xsd:string"/>
+                            </xsd:sequence>
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>75</pd:startX>
+    <pd:startY>120</pd:startY>
+    <pd:returnBindings>
+        <root>
+            <processedString>
+                <xsl:value-of select="$Java-Code/javaCodeActivityOutput/output"/>
+            </processedString>
+        </root>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="processedString" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:endType>
+    <pd:endX>646</pd:endX>
+    <pd:endY>118</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables>
+        <File>
+            <xsd:element name="file">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="path" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </File>
+    </pd:processVariables>
+    <pd:targetNamespace>http://xmlns.example.com/1376589549441</pd:targetNamespace>
+    <pd:activity name="Java Code">
+        <pd:type>com.tibco.plugin.java.JavaActivity</pd:type>
+        <pd:resourceType>ae.javapalette.javaActivity</pd:resourceType>
+        <pd:x>534</pd:x>
+        <pd:y>126</pd:y>
+        <config>
+            <fileName>jadeProcessJavaCode</fileName>
+            <packageName>REST.JADE.jadeProcess</packageName>
+            <fullsource>package REST.JADE.jadeProcess;
+import java.util.*;
+import java.io.*;
+import de.neuland.jade4j.Jade4J;
+import com.google.gson.Gson;
+
+public class jadeProcessJavaCode{
+/****** START SET/GET METHOD, DO NOT MODIFY *****/
+	protected String filePath = "";
+	protected String inputParams = "";
+	protected String output = "";
+	public String getfilePath() {
+		return filePath;
+	}
+	public void setfilePath(String val) {
+		filePath = val;
+	}
+	public String getinputParams() {
+		return inputParams;
+	}
+	public void setinputParams(String val) {
+		inputParams = val;
+	}
+	public String getoutput() {
+		return output;
+	}
+	public void setoutput(String val) {
+		output = val;
+	}
+/****** END SET/GET METHOD, DO NOT MODIFY *****/
+	public jadeProcessJavaCode() {
+	}
+	public void invoke() throws Exception {
+/* Available Variables: DO NOT MODIFY
+	In  : String filePath
+	In  : String inputParams
+	Out : String output
+* Available Variables: DO NOT MODIFY *****/
+		String[] items = ((String) inputParams).split("\\|");
+		Map&lt;String, Object&gt; model = new HashMap&lt;String, Object&gt;();
+		for (int i = 0; i &lt; items.length; i++) {
+			String item = items[i];
+			String[] array = item.split(":");
+			model.put(array[0], array[1]);
+		}
+		output = Jade4J.render(filePath, model);
+	}
+}
+</fullsource>
+            <outputData>
+                <row>
+                    <fieldName>output</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </outputData>
+            <javaArchive>/REST/JADE/Resources/alias/AliasLibrary.aliaslib</javaArchive>
+            <inputData>
+                <row>
+                    <fieldName>filePath</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+                <row>
+                    <fieldName>inputParams</fieldName>
+                    <fieldType>string</fieldType>
+                    <fieldRequired>optional</fieldRequired>
+                </row>
+            </inputData>
+            <byteCode>
+                <class>
+                    <name>jadeProcessJavaCode</name>
+                    <byteCode>yv66vgAAADIAQgkADQAnCQANACgJAA0AKQoADgAqCAArCAAsCgAtAC4HAC8KAAgAKggAMAsAMQAyCgAzADQHADUHADYBAAhmaWxlUGF0aAEAEkxqYXZhL2xhbmcvU3RyaW5nOwEAC2lucHV0UGFyYW1zAQAGb3V0cHV0AQALZ2V0ZmlsZVBhdGgBABQoKUxqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBAAtzZXRmaWxlUGF0aAEAFShMamF2YS9sYW5nL1N0cmluZzspVgEADmdldGlucHV0UGFyYW1zAQAOc2V0aW5wdXRQYXJhbXMBAAlnZXRvdXRwdXQBAAlzZXRvdXRwdXQBAAY8aW5pdD4BAAMoKVYBAAZpbnZva2UBAA1TdGFja01hcFRhYmxlBwA3BwA4AQAKRXhjZXB0aW9ucwcAOQEAClNvdXJjZUZpbGUBABhqYWRlUHJvY2Vzc0phdmFDb2RlLmphdmEMAA8AEAwAEQAQDAASABAMAB0AHgEAAAEAAlx8BwA6DAA7ADwBABFqYXZhL3V0aWwvSGFzaE1hcAEAAToHADgMAD0APgcAPwwAQABBAQApUkVTVC9KQURFL2phZGVQcm9jZXNzL2phZGVQcm9jZXNzSmF2YUNvZGUBABBqYXZhL2xhbmcvT2JqZWN0AQATW0xqYXZhL2xhbmcvU3RyaW5nOwEADWphdmEvdXRpbC9NYXABABNqYXZhL2xhbmcvRXhjZXB0aW9uAQAQamF2YS9sYW5nL1N0cmluZwEABXNwbGl0AQAnKExqYXZhL2xhbmcvU3RyaW5nOylbTGphdmEvbGFuZy9TdHJpbmc7AQADcHV0AQA4KExqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvT2JqZWN0OylMamF2YS9sYW5nL09iamVjdDsBABhkZS9uZXVsYW5kL2phZGU0ai9KYWRlNEoBAAZyZW5kZXIBADUoTGphdmEvbGFuZy9TdHJpbmc7TGphdmEvdXRpbC9NYXA7KUxqYXZhL2xhbmcvU3RyaW5nOwAhAA0ADgAAAAMABAAPABAAAAAEABEAEAAAAAQAEgAQAAAACAABABMAFAABABUAAAAdAAEAAQAAAAUqtAABsAAAAAEAFgAAAAYAAQAAAA0AAQAXABgAAQAVAAAAIgACAAIAAAAGKiu1AAGxAAAAAQAWAAAACgACAAAAEAAFABEAAQAZABQAAQAVAAAAHQABAAEAAAAFKrQAArAAAAABABYAAAAGAAEAAAATAAEAGgAYAAEAFQAAACIAAgACAAAABiortQACsQAAAAEAFgAAAAoAAgAAABYABQAXAAEAGwAUAAEAFQAAAB0AAQABAAAABSq0AAOwAAAAAQAWAAAABgABAAAAGQABABwAGAABABUAAAAiAAIAAgAAAAYqK7UAA7EAAAABABYAAAAKAAIAAAAcAAUAHQABAB0AHgABABUAAAA/AAIAAQAAABcqtwAEKhIFtQABKhIFtQACKhIFtQADsQAAAAEAFgAAABYABQAAAB8ABAAJAAoACgAQAAsAFgAgAAEAHwAeAAIAFQAAAJcABAAGAAAASiq0AAISBrYAB0y7AAhZtwAJTQM+HSu+ogAmKx0yOgQZBBIKtgAHOgUsGQUDMhkFBDK5AAsDAFeEAwGn/9oqKrQAASy4AAy1AAOxAAAAAgAWAAAAJgAJAAAAJwAKACgAEgApABoAKgAfACsAKAAsADcAKQA9AC4ASQAvACAAAAAPAAL+ABQHACEHACIB+gAoACMAAAAEAAEAJAABACUAAAACACY=</byteCode>
+                </class>
+            </byteCode>
+        </config>
+        <pd:inputBindings>
+            <javaCodeActivityInput>
+                <filePath>
+                    <xsl:value-of select="$File/file/path"/>
+                </filePath>
+                <inputParams>
+                    <xsl:value-of select="tib:concat-sequence-format(&#xA;&#x9;for $var in $Start/root/parameters return concat($var/name, ':', $var/value)&#xA;, '|')"/>
+                </inputParams>
+            </javaCodeActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="RetrieveResources">
+        <pd:type>com.tibco.plugin.soap.urlaccess.RetrieveResource</pd:type>
+        <pd:resourceType>ae.activities.RetrieveResource</pd:resourceType>
+        <pd:x>174</pd:x>
+        <pd:y>226</pd:y>
+        <config/>
+        <pd:inputBindings>
+            <inputClass>
+                <resourcePath>
+                    <xsl:value-of select="$Start/root/templatePath"/>
+                </resourcePath>
+            </inputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>286</pd:x>
+        <pd:y>227</pd:y>
+        <config>
+            <variableName>File</variableName>
+        </config>
+        <pd:inputBindings>
+            <file>
+                <path>
+                    <xsl:value-of select="if(tib:index-of($Start/root/templatePath, '/') > -1) then&#xA;&#x9;tib:substring-after-last($Start/root/templatePath, '/')&#xA;else if(tib:index-of($Start/root/templatePath, '\\') > -1) then&#xA;&#x9;tib:substring-after-last($Start/root/templatePath, '\\')&#xA;else&#xA;&#x9;$Start/root/templatePath"/>
+                </path>
+            </file>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign-1">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>281</pd:x>
+        <pd:y>123</pd:y>
+        <config>
+            <variableName>File</variableName>
+        </config>
+        <pd:inputBindings>
+            <file>
+                <path>
+                    <xsl:value-of select="substring-after($Start/root/templatePath, &quot;abs:&quot;)"/>
+                </path>
+            </file>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>384</pd:x>
+        <pd:y>228</pd:y>
+        <config>
+            <encoding>binary</encoding>
+            <compressFile>None</compressFile>
+            <createMissingDirectories>false</createMissingDirectories>
+        </config>
+        <pd:inputBindings>
+            <ns4:WriteActivityInputBinaryClass>
+                <fileName>
+                    <xsl:value-of select="$File/file/path"/>
+                </fileName>
+                <binaryContent>
+                    <xsl:value-of select="$RetrieveResources/outputClass/resourceBytes"/>
+                </binaryContent>
+            </ns4:WriteActivityInputBinaryClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Assign-2">
+        <pd:type>com.tibco.pe.core.AssignActivity</pd:type>
+        <pd:resourceType>ae.activities.assignActivity</pd:resourceType>
+        <pd:x>493</pd:x>
+        <pd:y>228</pd:y>
+        <config>
+            <variableName>File</variableName>
+        </config>
+        <pd:inputBindings>
+            <file>
+                <path>
+                    <xsl:value-of select="$Write-File/ns4:WriteActivityOutputClass/fileInfo/fullName"/>
+                </path>
+            </file>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Java Code</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Assign-1</pd:to>
+        <pd:xpathDescription>absolute path?</pd:xpathDescription>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>starts-with($Start/root/templatePath, "abs:")</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>RetrieveResources</pd:from>
+        <pd:to>Assign</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign</pd:from>
+        <pd:to>Write File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-1</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>RetrieveResources</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>otherwise</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write File</pd:from>
+        <pd:to>Assign-2</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Assign-2</pd:from>
+        <pd:to>Java Code</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

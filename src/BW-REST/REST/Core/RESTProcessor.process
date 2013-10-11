@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/pe/DeployedVarsType" xmlns:ns="http://www.tibco.com/pe/GenerateErrorActivity/InputSchema" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+    <pd:name>REST/Core/RESTProcessor.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType>
+        <xsd:element name="root">
+            <xsd:complexType>
+                <xsd:sequence>
+                    <xsd:element name="url" type="xsd:string"/>
+                    <xsd:element name="verb" type="xsd:string"/>
+                    <xsd:element name="params" type="xsd:string"/>
+                    <xsd:element name="cookie" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="postData" type="xsd:string" minOccurs="0"/>
+                    <xsd:element ref="pfx:routes"/>
+                </xsd:sequence>
+            </xsd:complexType>
+        </xsd:element>
+    </pd:startType>
+    <pd:startX>97</pd:startX>
+    <pd:startY>96</pd:startY>
+    <pd:returnBindings>
+        <xsl:copy-of select="$strategy/pfx:RestProcessOutput"/>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:RestProcessOutput"/>
+    <pd:endX>717</pd:endX>
+    <pd:endY>100</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1376336806952</pd:targetNamespace>
+    <pd:activity name="MatchRoute">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>216</pd:x>
+        <pd:y>97</pd:y>
+        <config>
+            <processName>/REST/Core/MatchRoute.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <url>
+                    <xsl:value-of select="$Start/root/url"/>
+                </url>
+                <verb>
+                    <xsl:value-of select="$Start/root/verb"/>
+                </verb>
+                <params>
+                    <xsl:value-of select="$Start/root/params"/>
+                </params>
+                <xsl:if test="$Start/root/cookie">
+                    <cookie>
+                        <xsl:value-of select="$Start/root/cookie"/>
+                    </cookie>
+                </xsl:if>
+                <xsl:copy-of select="$Start/root/pfx:routes"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="ParseParameters">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>334</pd:x>
+        <pd:y>100</pd:y>
+        <config>
+            <processName>/REST/Misc/ParseParameters.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <command>
+                    <xsl:value-of select="$Start/root/url"/>
+                </command>
+                <queryString>
+                    <xsl:value-of select="$Start/root/params"/>
+                </queryString>
+                <xsl:copy-of select="$MatchRoute/pfx:routes/pfx:route/pfx:parameters"/>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="strategy">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>596</pd:x>
+        <pd:y>100</pd:y>
+        <config>
+            <processNameXPath>$MatchRoute/pfx:routes/pfx:route[1]/pfx:handler</processNameXPath>
+            <processName>/REST/Core/DummyProcess.process</processName>
+            <spawn>false</spawn>
+        </config>
+        <pd:inputBindings>
+            <pfx:RestProcessInput>
+                <pfx:parameters>
+                    <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="string-length($MatchRoute/pfx:routes/pfx:route[1]/pfx:folder)>0">
+                        <pfx:parameter>
+                            <pfx:name>
+                                <xsl:value-of select="'folder'"/>
+                            </pfx:name>
+                            <pfx:value>
+                                <xsl:value-of select="$MatchRoute/pfx:routes/pfx:route[1]/pfx:folder"/>
+                            </pfx:value>
+                        </pfx:parameter>
+                    </xsl:if>
+                    <xsl:if xmlns:xsl="http://www.w3.org/1999/XSL/Transform" test="string-length($MatchRoute/pfx:routes/pfx:route[1]/pfx:file)>0">
+                        <pfx:parameter>
+                            <pfx:name>
+                                <xsl:value-of select="'file'"/>
+                            </pfx:name>
+                            <pfx:value>
+                                <xsl:value-of select="$MatchRoute/pfx:routes/pfx:route[1]/pfx:file"/>
+                            </pfx:value>
+                        </pfx:parameter>
+                    </xsl:if>
+                    <pfx:parameter>
+                        <pfx:name>
+                            <xsl:value-of select="'command'"/>
+                        </pfx:name>
+                        <pfx:value>
+                            <xsl:value-of select="$Start/root/url"/>
+                        </pfx:value>
+                    </pfx:parameter>
+                    <pfx:parameter>
+                        <pfx:name>
+                            <xsl:value-of select="'route'"/>
+                        </pfx:name>
+                        <pfx:value>
+                            <xsl:value-of select="$MatchRoute/pfx:routes/pfx:route[1]/pfx:path"/>
+                        </pfx:value>
+                    </pfx:parameter>
+                    <pfx:parameter>
+                        <pfx:name>
+                            <xsl:value-of select="'method'"/>
+                        </pfx:name>
+                        <pfx:value>
+                            <xsl:value-of select="$MatchRoute/pfx:routes/pfx:route[1]/pfx:verb"/>
+                        </pfx:value>
+                    </pfx:parameter>
+                    <pfx:parameter>
+                        <pfx:name>
+                            <xsl:value-of select="'beforeHandler'"/>
+                        </pfx:name>
+                        <pfx:value>
+                            <xsl:value-of select="$MatchRoute/pfx:routes/pfx:route[1]/pfx:beforeHandler"/>
+                        </pfx:value>
+                    </pfx:parameter>
+                    <xsl:copy-of select="$ParseParameters/pfx:parameters/pfx:parameter"/>
+                </pfx:parameters>
+                <pfx:body>
+                    <xsl:if test="$Start/root/postData">
+                        <pfx:content>
+                            <xsl:value-of select="$Start/root/postData"/>
+                        </pfx:content>
+                    </xsl:if>
+                </pfx:body>
+            </pfx:RestProcessInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Generate Error">
+        <pd:type>com.tibco.pe.core.GenerateErrorActivity</pd:type>
+        <pd:resourceType>ae.activities.throw</pd:resourceType>
+        <pd:x>337</pd:x>
+        <pd:y>244</pd:y>
+        <config>
+            <faultName/>
+        </config>
+        <pd:inputBindings>
+            <ns:ActivityInput>
+                <messageCode>
+                    <xsl:value-of select="$_globalVariables/ns1:GlobalVariables/REST/Exceptions/NoMatchingRoute"/>
+                </messageCode>
+            </ns:ActivityInput>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="InitializeCookies">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>469</pd:x>
+        <pd:y>101</pd:y>
+        <config>
+            <processName>/REST/Cookies/InitializeCookies.process</processName>
+        </config>
+        <pd:inputBindings>
+            <root>
+                <xsl:if test="$Start/root/cookie">
+                    <cookie>
+                        <xsl:value-of select="$Start/root/cookie"/>
+                    </cookie>
+                </xsl:if>
+            </root>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>MatchRoute</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>MatchRoute</pd:from>
+        <pd:to>ParseParameters</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>ParseParameters</pd:from>
+        <pd:to>InitializeCookies</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>strategy</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>MatchRoute</pd:from>
+        <pd:to>Generate Error</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>xpath</pd:conditionType>
+        <pd:xpath>count($MatchRoute/pfx:routes/pfx:route)=0</pd:xpath>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>InitializeCookies</pd:from>
+        <pd:to>strategy</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

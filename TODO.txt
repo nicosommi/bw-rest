@@ -1,0 +1,6 @@
+pending
+-----
+- support multiple matching routes
+- nio container
+- multiple rest server agents with its own routes
+- document some usage examples

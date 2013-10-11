@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.hp.com/labs/rest/RESTTypes"
+	 targetNamespace="http://www.hp.com/labs/rest/RESTTypes"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xsd:complexType name="parametersType">
+		<xsd:sequence>
+			<xsd:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="value" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="position" type="xsd:int" minOccurs="0"/>
+						<xsd:element name="type" type="xsd:string" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CookiesType">
+		<xsd:sequence>
+			<xsd:element name="cookie" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="value" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="domain" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="path" type="xsd:string" minOccurs="0"/>
+						<xsd:element name="secure" type="xsd:boolean" minOccurs="0"/>
+						<xsd:element name="httpOnly" type="xsd:boolean" minOccurs="0"/>
+						<xsd:element name="max-age" type="xsd:int" minOccurs="0"/>
+						<xsd:element name="expires" type="xsd:dateTime" minOccurs="0"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Cookies" type="CookiesType"/>
+	<xsd:element name="RestProcessInput">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="parameters" type="parametersType" minOccurs="0"/>
+				<xsd:element name="extraHTTPHeaders" type="extraHeadersType" minOccurs="0"/>
+				<xsd:element name="body" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="content" type="xsd:anyType" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="extraHeadersType">
+		<xsd:sequence>
+			<xsd:element name="header" minOccurs="0" maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="name" type="xsd:string"/>
+						<xsd:element name="value" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="RestProcessOutput">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="parameters" type="parametersType" minOccurs="0"/>
+				<xsd:element name="extraHTTPHeaders" type="extraHeadersType" minOccurs="0"/>
+				<xsd:element name="body" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="content" type="xsd:anyType" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ExtraHTTPHeaders" type="extraHeadersType"/>
+	<xsd:element name="parameters" type="parametersType"/>
+	<xsd:element name="routes">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="route" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="path" type="xsd:string"/>
+							<xsd:element name="verb" type="xsd:string"/>
+							<xsd:element name="type" type="xsd:string" minOccurs="0"/>
+							<xsd:element name="folder" type="xsd:string" minOccurs="0"/>
+							<xsd:element name="file" type="xsd:string" minOccurs="0"/>
+							<xsd:element name="beforeHandler" type="xsd:string" minOccurs="0"/>
+							<xsd:element name="handler" type="xsd:string" minOccurs="0"/>
+							<xsd:element name="parameters" type="parametersType" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

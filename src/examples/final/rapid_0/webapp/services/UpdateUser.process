@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/RESTTypes.xsd"/>
+    <xsd:import namespace="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" schemaLocation="/UserManagement/UserSchemas.xsd"/>
+    <pd:name>webapp/services/UpdateUser.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startType ref="pfx:RestProcessInput"/>
+    <pd:startX>116</pd:startX>
+    <pd:startY>71</pd:startY>
+    <pd:returnBindings>
+        <pfx:RestProcessOutput>
+            <pfx:extraHTTPHeaders>
+                <pfx:header>
+                    <pfx:name>
+                        <xsl:value-of select="'Content-type'"/>
+                    </pfx:name>
+                    <pfx:value>
+                        <xsl:value-of select="'application/json'"/>
+                    </pfx:value>
+                </pfx:header>
+            </pfx:extraHTTPHeaders>
+            <pfx:body>
+                <pfx:content>
+                    <xsl:value-of select="$Render-JSON/ns2:ActivityOutputClass/jsonString"/>
+                </pfx:content>
+            </pfx:body>
+        </pfx:RestProcessOutput>
+    </pd:returnBindings>
+    <pd:endName>End</pd:endName>
+    <pd:endType ref="pfx:RestProcessOutput"/>
+    <pd:endX>660</pd:endX>
+    <pd:endY>75</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1378232227414</pd:targetNamespace>
+    <pd:activity name="AddUser">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>480</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <processName>/UserManagement/AddUser.process</processName>
+        </config>
+        <pd:inputBindings>
+            <xsl:for-each select="$Parse-JSON/ns2:ActivityOutputClass/User">
+                <ns:User>
+                    <ns:id>
+                        <xsl:value-of select="id"/>
+                    </ns:id>
+                    <ns:firstName>
+                        <xsl:value-of select="firstName"/>
+                    </ns:firstName>
+                    <ns:lastName>
+                        <xsl:value-of select="lastName"/>
+                    </ns:lastName>
+                </ns:User>
+            </xsl:for-each>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="SecurityCheck">
+        <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
+        <pd:resourceType>ae.process.subprocess</pd:resourceType>
+        <pd:x>228</pd:x>
+        <pd:y>70</pd:y>
+        <config>
+            <processName>/webapp/services/Util/SecurityCheck.process</processName>
+        </config>
+        <pd:inputBindings/>
+    </pd:activity>
+    <pd:activity name="Parse JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONParserActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONParserActivity</pd:resourceType>
+        <pd:x>337</pd:x>
+        <pd:y>67</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ValidateOutputEnable>false</ValidateOutputEnable>
+            <ActivityOutputEditor>
+                <xsd:element name="User">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="id" type="xsd:string"/>
+                            <xsd:element name="firstName" type="xsd:string"/>
+                            <xsd:element name="lastName" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityOutputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <jsonString>
+                    <xsl:value-of select="$Start/pfx:RestProcessInput/pfx:body/pfx:content"/>
+                </jsonString>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render JSON">
+        <pd:type>com.tibco.plugin.json.activities.JSONRenderActivity</pd:type>
+        <pd:resourceType>ae.activities.JSONRenderActivity</pd:resourceType>
+        <pd:x>571</pd:x>
+        <pd:y>73</pd:y>
+        <config>
+            <SchemaType>xsdType</SchemaType>
+            <BadgerfishCheck>false</BadgerfishCheck>
+            <ActivityInputEditor>
+                <xsd:element name="User">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="id" type="xsd:string"/>
+                            <xsd:element name="firstName" type="xsd:string" minOccurs="0"/>
+                            <xsd:element name="lastName" type="xsd:string" minOccurs="0"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </ActivityInputEditor>
+        </config>
+        <pd:inputBindings>
+            <ns2:ActivityInputClass>
+                <User>
+                    <id>
+                        <xsl:value-of select="$AddUser/ns:User/ns:id"/>
+                    </id>
+                    <firstName>
+                        <xsl:value-of select="$AddUser/ns:User/ns:firstName"/>
+                    </firstName>
+                    <lastName>
+                        <xsl:value-of select="$AddUser/ns:User/ns:lastName"/>
+                    </lastName>
+                </User>
+            </ns2:ActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>SecurityCheck</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>AddUser</pd:from>
+        <pd:to>Render JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>SecurityCheck</pd:from>
+        <pd:to>Parse JSON</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse JSON</pd:from>
+        <pd:to>AddUser</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render JSON</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
