@@ -11,7 +11,7 @@ Getting started
 * See the video
 * Constantly view the example code
 
-Big picture how to: use (See the video)
+Big picture how to: use ([See the video](http://www.youtube.com/watch?v=RrPAYiXhTjc "BW-REST"))
 ---------------------------------------
 * compile the library from the sources or directly pick the bin folder from here
 * add two file aliases: one for the previously obtained projlib and one for the lib folder
