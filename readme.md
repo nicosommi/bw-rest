@@ -23,9 +23,29 @@ Big picture how to: use (See the video)
 * run and test it
 * build your EAR!
 
+Detailed steps
+--------------
+* Create Alias with lib folder placed at BW-REST/REST/JADE/Resources/lib
+* Build library placed at BW-REST/Build
+* Create an alias of that library
+* Link your project with the generated .projlib
+* (optional) replace variables to user the default router (w def http connection) or crear your own route process (1)
+* (optional) create you own router.xml
+* (optional) create your process handlers
+
+(1) Create your own route process
+* Create a process definition
+* Put an HTTP receiver at your decision, but make sure to shape it like the default in BW-REST/REST/router.process
+(Do not forget, for example, to add the cookie header)
+* If you want to load a router.xml use the REST/GetDefaultRoutes.process and set the variable REST/routerPath to your route.xml
+* Now call REST/RestProcessor.process, map it like the REST/route.process
+* Finally, put a Send HTTP Response activity to the Http Receiver, and map it again, like REST/router.process
+
 Requirements
 ------------
-* TIBCO Designer (and JSON/REST plugin for JSON support)
+* BusinessWorks 5.10
+* Designer 5.7.4.4
+* JSON & REST Plugin 1.1 (to make a REST/JSON webapp)
 
 Version history
 ---------------
