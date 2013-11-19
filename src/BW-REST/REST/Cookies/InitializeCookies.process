@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
-    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:regex="java://com.hp.labs.tibco.bw.regex.RegexMatch" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tib="http://www.tibco.com/bw/xslt/custom-functions" xmlns:pfx="http://www.nicosommi.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.nicosommi.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
     <pd:name>REST/Cookies/InitializeCookies.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType>

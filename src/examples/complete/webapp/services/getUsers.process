@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.hp.com/labs/rest/RESTTypes">
-    <xsd:import namespace="http://www.hp.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
+<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns1="http://www.tibco.com/namespaces/tnt/plugins/json" xmlns:ns="http://www.tibco.com/schemas/rapid/UserManagement/Schema.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:pfx="http://www.nicosommi.com/labs/rest/RESTTypes">
+    <xsd:import namespace="http://www.nicosommi.com/labs/rest/RESTTypes" schemaLocation="/REST/Resources/Schemas/RESTTypes.xsd"/>
     <pd:name>webapp/services/getUsers.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startType ref="pfx:RestProcessInput"/>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pd:ProcessDefinition xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.hp.com/labs/rest/RESTTypes">
+<pd:ProcessDefinition xmlns:ns2="http://www.nicosommi.com/labs/rest/RESTTypes" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ns="http://www.hp.com/labs/rest/RESTTypes">
     <pd:name>REST/UnitTest/testParseParameters.process</pd:name>
     <pd:startName>Start</pd:startName>
     <pd:startX>150</pd:startX>
@@ -15,9 +15,9 @@
         <pd:type>com.tibco.pe.core.CallProcessActivity</pd:type>
         <pd:resourceType>ae.process.subprocess</pd:resourceType>
         <pd:x>337</pd:x>
-        <pd:y>64</pd:y>
+        <pd:y>79</pd:y>
         <config>
-            <processName>/REST/ParseParameters.process</processName>
+            <processName>/REST/Misc/ParseParameters.process</processName>
         </config>
         <pd:inputBindings>
             <root>
@@ -27,24 +27,24 @@
                 <queryString>
                     <xsl:value-of select="'action=lock&amp;sessionID=996102144&amp;wiTag=timetracking|PC000111|T01|R|17851|15439|timetracking|ST000001|0|7'"/>
                 </queryString>
-                <ns:parameters>
-                    <ns:parameter>
-                        <ns:name>
+                <ns2:parameters>
+                    <ns2:parameter>
+                        <ns2:name>
                             <xsl:value-of select="'sessionID'"/>
-                        </ns:name>
-                        <ns:type>
+                        </ns2:name>
+                        <ns2:type>
                             <xsl:value-of select="'query'"/>
-                        </ns:type>
-                    </ns:parameter>
-                    <ns:parameter>
-                        <ns:name>
+                        </ns2:type>
+                    </ns2:parameter>
+                    <ns2:parameter>
+                        <ns2:name>
                             <xsl:value-of select="'action'"/>
-                        </ns:name>
-                        <ns:type>
+                        </ns2:name>
+                        <ns2:type>
                             <xsl:value-of select="'query'"/>
-                        </ns:type>
-                    </ns:parameter>
-                </ns:parameters>
+                        </ns2:type>
+                    </ns2:parameter>
+                </ns2:parameters>
             </root>
         </pd:inputBindings>
     </pd:activity>
